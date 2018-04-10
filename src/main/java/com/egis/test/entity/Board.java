@@ -1,24 +1,23 @@
 package com.egis.test.entity;
 
 public class Board {
-	
-	int seq;
+
 	String title;
-	String content;
-	String date;
+	String link;
+	String description;
+	String bloggemame;
+	String bloggerlink;
 	
 	
-	public Board(int seq, String title, String content, String date) {
-		this.seq = seq;
+	
+	public Board(String title, String link, String description, String bloggemame, String bloggerlink,
+			String postdate) {
 		this.title = title;
-		this.content = content;
-		this.date = date;
-	}
-	public int getSeq() {
-		return seq;
-	}
-	public void setSeq(int seq) {
-		this.seq = seq;
+		this.link = link;
+		this.description = description;
+		this.bloggemame = bloggemame;
+		this.bloggerlink = bloggerlink;
+		this.postdate = postdate;
 	}
 	public String getTitle() {
 		return title;
@@ -26,18 +25,36 @@ public class Board {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getContent() {
-		return content;
+	public String getLink() {
+		return link;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setLink(String link) {
+		this.link = link;
 	}
-	public String getDate() {
-		return date;
+	public String getDescription() {
+		return description;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	
+	public String getBloggemame() {
+		return bloggemame;
+	}
+	public void setBloggemame(String bloggemame) {
+		this.bloggemame = bloggemame;
+	}
+	public String getBloggerlink() {
+		return bloggerlink;
+	}
+	public void setBloggerlink(String bloggerlink) {
+		this.bloggerlink = bloggerlink;
+	}
+	public String getPostdate() {
+		return postdate;
+	}
+	public void setPostdate(String postdate) {
+		this.postdate = postdate;
+	}
+	String postdate;
 
 }

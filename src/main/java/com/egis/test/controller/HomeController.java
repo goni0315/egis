@@ -5,12 +5,20 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.egis.test.entity.Search;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+
 
 
 
@@ -59,22 +67,38 @@ public class HomeController {
                 response.append(inputLine);
             }
             br.close();
-            System.out.println(response.toString());
+                        
+                        
+                   System.out.println(response.toString());
             
+            JsonParser jsonParser = new JsonParser();
+            JsonObject jsonObject = (JsonObject) jsonParser.parse(response.toString());
+            System.out.println(jsonObject.get("items"));
+            JsonArray dataArray = (JsonArray) jsonObject.get("items");
+            System.out.println(dataArray.get(0));
+            System.out.println(((JsonObject) dataArray.get(0)).get("title"));
             
-            
-            JSONParser parse = new JSONParser();
-            JSONObject parse_response = parse.get("response");
-            
-            
-            
-            model.addAttribute("list", response.toString());            
-            
-            
-            
+            List<Search> list = new ArrayList<Search>();
+            for(int i=0; i<=dataArray.size(); i++) {
+
+            	Search search = new Search();
+            	
+            	search.setBloggemame(((JsonObject) dataArray.get(i)).get("bloggemame").toString());
+            	search.setBloggerlink(((JsonObject) dataArray.get(i)).get("bloggerlink").toString());
+            	search.setDescription(((JsonObject) dataArray.get(i)).get("description").toString());
+            	search.setTitle(((JsonObject) dataArray.get(i)).get("title").toString());
+            	search.setPostdate(((JsonObject) dataArray.get(i)).get("postdate").toString());
+            	
+            	list.add(search);
+            	
+            	
+            }
+            System.out.println(list.get(0).getTitle());
+            model.addAttribute("list", list);
             
             
         return "list";    
+        
             
         } catch (Exception e) {
             System.out.println(e);

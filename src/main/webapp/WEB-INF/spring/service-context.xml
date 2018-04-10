@@ -17,10 +17,6 @@
 		<property name="password" value="1111" />
 	</bean>
 
-
-
-
-
     
     <!-- template을 이용하기 위한 설정 -->
    <bean name="template" class="org.springframework.jdbc.core.JdbcTemplate">

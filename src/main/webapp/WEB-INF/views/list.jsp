@@ -10,6 +10,6 @@
 <body>
 
 
-${list}
+${list(0).title}
 </body>
 </html>
