@@ -8,11 +8,14 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONString;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.egis.test.dao.BoardDao;
 import com.egis.test.entity.Search;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -25,9 +28,12 @@ import com.google.gson.JsonParser;
 @Controller
 @RequestMapping("/*")
 public class HomeController {
+	
+	
+	@Autowired
+	BoardDao boardDao;
 
-	//@Autowired
-	//BoardDao boardDao;
+	
 	
 	@RequestMapping(value="index")
 	public String index(Model model) {
@@ -42,7 +48,11 @@ public class HomeController {
 	@RequestMapping(value="search")
 	public String search(Model model, @RequestParam(value="q") String query ) {
 				
+		
 		StringBuffer response;
+		 List<Search> list;
+		
+		
 		String clientId = "3cK614fe8K1RHXa2Hp4K";
         String clientSecret = "mk74hJSiu_";
         try {
@@ -76,24 +86,31 @@ public class HomeController {
             System.out.println(jsonObject.get("items"));
             JsonArray dataArray = (JsonArray) jsonObject.get("items");
             System.out.println(dataArray.get(0));
-            System.out.println(((JsonObject) dataArray.get(0)).get("title"));
+            System.out.println(((JsonObject) dataArray.get(0)).get("title").toString());
             
-            List<Search> list = new ArrayList<Search>();
-            for(int i=0; i<=dataArray.size(); i++) {
+            
+           list = new ArrayList<Search>();
+           
+           
 
-            	Search search = new Search();
             	
-            	search.setBloggemame(((JsonObject) dataArray.get(i)).get("bloggemame").toString());
+            	
+            	for(int i=0; i<dataArray.size(); i++) {
+            		
+            		Search search = new Search();
+            		
+            	search.setBloggername(((JsonObject) dataArray.get(i)).get("bloggername").toString());            	
             	search.setBloggerlink(((JsonObject) dataArray.get(i)).get("bloggerlink").toString());
             	search.setDescription(((JsonObject) dataArray.get(i)).get("description").toString());
             	search.setTitle(((JsonObject) dataArray.get(i)).get("title").toString());
             	search.setPostdate(((JsonObject) dataArray.get(i)).get("postdate").toString());
+            	search.setLink(((JsonObject) dataArray.get(i)).get("link").toString());
             	
             	list.add(search);
+            	}
             	
-            	
-            }
-            System.out.println(list.get(0).getTitle());
+            
+            
             model.addAttribute("list", list);
             
             
@@ -102,7 +119,7 @@ public class HomeController {
             
         } catch (Exception e) {
             System.out.println(e);
-            return "에러";
+            return "index";
         }
 		
 		
@@ -115,5 +132,57 @@ public class HomeController {
 				
 	}
 	
+	@RequestMapping("board")
+	public String board(Model model) {
+		
+		
+		
+		
+		
+		
+		
+		model.addAttribute("list", boardDao.getList());
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return "board";
+		
+		
+	} 
+	
+	@RequestMapping("map")
+	public String map(Model model) {
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return "map";
+		
+		
+	} 
 
 }

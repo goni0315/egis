@@ -5,20 +5,21 @@ public class Search {
 	String title;
 	String link;
 	String description;
-	String bloggemame;
+	String bloggername;
 	String bloggerlink;
+	String postdate;
 	
 	
 	
 	
 	public Search() {
 	}
-	public Search(String title, String link, String description, String bloggemame, String bloggerlink,
+	public Search(String title, String link, String description, String bloggername, String bloggerlink,
 			String postdate) {
 		this.title = title;
 		this.link = link;
 		this.description = description;
-		this.bloggemame = bloggemame;
+		this.bloggername = bloggername;
 		this.bloggerlink = bloggerlink;
 		this.postdate = postdate;
 	}
@@ -40,11 +41,11 @@ public class Search {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getBloggemame() {
-		return bloggemame;
+	public String getBloggername() {
+		return bloggername;
 	}
-	public void setBloggemame(String bloggemame) {
-		this.bloggemame = bloggemame;
+	public void setBloggername(String bloggername) {
+		this.bloggername = bloggername;
 	}
 	public String getBloggerlink() {
 		return bloggerlink;
@@ -58,6 +59,5 @@ public class Search {
 	public void setPostdate(String postdate) {
 		this.postdate = postdate;
 	}
-	String postdate;
 
 }

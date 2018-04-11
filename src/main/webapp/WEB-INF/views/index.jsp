@@ -16,7 +16,7 @@
 
 <input type="text" name="q">
 <button type="submit">검색</button>
-
+<a href="board">게시판</a>
 </form>
 
 

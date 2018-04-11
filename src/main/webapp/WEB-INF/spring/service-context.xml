@@ -5,11 +5,6 @@
    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-
-
-   
-
-
 <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource" >
 		<property name="driverClass" value="org.postgresql.Driver" />
 		<property name="url" value="$jdbc:postgresql://localhost:5432/postgres" />
@@ -22,7 +17,6 @@
    <bean name="template" class="org.springframework.jdbc.core.JdbcTemplate">
       <property name="dataSource" ref="dataSource" />
    </bean>
-   
 
    
    <bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -35,9 +29,8 @@
 	</bean>
     
    <!-- DAO 객체들 -->
-   <!-- <bean class="com.food.webapp.dao.spring.SpringRestaurantDao"/>
-   <bean class="com.food.webapp.dao.spring.SpringMemberDao"/> -->
-
+   <bean class="com.egis.test.dao.mybatis.BoardDaoMybatis"/>
+   
 
    <context:annotation-config />
 </beans>
