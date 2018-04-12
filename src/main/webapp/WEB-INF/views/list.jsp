@@ -14,21 +14,6 @@
 <button type="submit">검색</button>
 </form>
 
-<c:forEach items="${list}" begin="0" var="i" end="4">
-<div><a href=${i.link}>${i.title}</a> ${i.postdate}
-
-</div>
-<div>
-${i.description}
-</div>
-<div>
-
-${i.bloggername} <a href=${i.bloggerlink}>${i.bloggerlink}</a>
-</div>
-</br>
-
-
-</c:forEach>
 
 
 </body>

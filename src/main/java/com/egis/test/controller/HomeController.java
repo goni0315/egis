@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.egis.test.dao.BoardDao;
+import com.egis.test.entity.Local;
 import com.egis.test.entity.Search;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -44,6 +45,109 @@ public class HomeController {
 		return "index";
 				
 	}
+	
+	@RequestMapping(value="local")
+	public String local(Model model, @RequestParam(value="q") String query) {
+	
+		StringBuffer response;
+		 List<Local> list;
+		  int seq = 1;
+		  int lastSeq = 0;
+		
+		String clientId = "3cK614fe8K1RHXa2Hp4K";
+       String clientSecret = "mk74hJSiu_";
+       try {
+           String text = URLEncoder.encode("수원시 "+query, "UTF-8");
+           String apiURL = "https://openapi.naver.com/v1/search/local?display=100&query="+ text; // json 
+           //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 
+           URL url = new URL(apiURL);
+           HttpURLConnection con = (HttpURLConnection)url.openConnection();
+           con.setRequestMethod("GET");
+           con.setRequestProperty("X-Naver-Client-Id", clientId);
+           con.setRequestProperty("X-Naver-Client-Secret", clientSecret);
+           int responseCode = con.getResponseCode();
+           BufferedReader br;
+           if(responseCode==200) { // ���� ȣ��
+               br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+           } else {  // ���� �߻�
+               br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+           }
+           String inputLine;
+           response = new StringBuffer();
+           while ((inputLine = br.readLine()) != null) {
+               response.append(inputLine);
+           }
+           br.close();
+                       
+                       
+                  System.out.println(response.toString());
+           
+           JsonParser jsonParser = new JsonParser();
+           JsonObject jsonObject = (JsonObject) jsonParser.parse(response.toString());
+           System.out.println(jsonObject.get("items"));
+           JsonArray dataArray = (JsonArray) jsonObject.get("items");
+           System.out.println(dataArray.get(0));
+           System.out.println(((JsonObject) dataArray.get(0)).get("title").toString());
+           
+           
+          list = new ArrayList<Local>();
+          
+          
+
+           	
+        
+           	
+           	for(int i=0; i<dataArray.size(); i++) {
+           		
+           		
+           		Local local = new Local();           		
+           		
+           		local.setTitle(((JsonObject) dataArray.get(i)).get("title").toString());            	
+           		local.setAddress(((JsonObject) dataArray.get(i)).get("address").toString());
+           		local.setRoadAddress(((JsonObject) dataArray.get(i)).get("roadAddress").toString());
+           		local.setMapx(((JsonObject) dataArray.get(i)).get("mapx").toString());
+           		local.setMapy(((JsonObject) dataArray.get(i)).get("mapy").toString());
+           		local.setSeq(seq);
+           		
+           		list.add(local);
+           		seq++;
+           		lastSeq=seq;
+           	System.out.println(seq);
+           	
+           	
+           	}
+           	
+           
+           
+           model.addAttribute("list", list);
+           model.addAttribute("lastSeq", lastSeq);
+           
+           
+       return "local";    
+       
+           
+       } catch (Exception e) {
+           System.out.println(e);           
+           return "local";
+       }
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
 	
 	@RequestMapping(value="search")
 	public String search(Model model, @RequestParam(value="q") String query ) {

@@ -20,6 +20,13 @@
 </form>
 
 
+<form action="local" method="get">
+
+<input type="text" name="q">
+<button type="submit">지역검색</button>
+</form>
+
+
 
 
 
