@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.egis.test.dao.BoardDao;
@@ -46,8 +47,8 @@ public class HomeController {
 				
 	}
 	
-	@RequestMapping(value="local")
-	public String local(Model model, @RequestParam(value="q") String query) {
+	@RequestMapping(value="local", method=RequestMethod.GET)
+	public String local(Model model, @RequestParam(value="q") String query, @RequestParam(value="p", defaultValue="1") Integer p) {
 	
 		StringBuffer response;
 		 List<Local> list;
@@ -78,7 +79,7 @@ public class HomeController {
                response.append(inputLine);
            }
            br.close();
-                       
+                     
                        
                   System.out.println(response.toString());
            
@@ -92,14 +93,8 @@ public class HomeController {
            
           list = new ArrayList<Local>();
           
-          
-
-           	
-        
-           	
            	for(int i=0; i<dataArray.size(); i++) {
-           		
-           		
+           		           		
            		Local local = new Local();           		
            		
            		local.setTitle(((JsonObject) dataArray.get(i)).get("title").toString());            	
@@ -112,15 +107,19 @@ public class HomeController {
            		list.add(local);
            		seq++;
            		lastSeq=seq;
-           	System.out.println(seq);
-           	
-           	
+           		System.out.println("------------------");
+           	System.out.println(((JsonObject) dataArray.get(i)).get("title").toString());
+           	           	
            	}
-           	
-           
-           
+           	           
+           System.out.println(lastSeq);
            model.addAttribute("list", list);
-           model.addAttribute("lastSeq", lastSeq);
+           model.addAttribute("lastSeq", lastSeq-1);
+           model.addAttribute("p", p);
+           System.out.println("페이지"+p);
+           System.out.println("검색어"+query);
+           model.addAttribute("query", query);
+           
            
            
        return "local";    
@@ -131,32 +130,15 @@ public class HomeController {
            return "local";
        }
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	}
-	
+	}	
 	
 	@RequestMapping(value="search")
-	public String search(Model model, @RequestParam(value="q") String query ) {
-				
+	public String search(Model model, @RequestParam(value="q") String query) {
+			
 		
 		StringBuffer response;
 		 List<Search> list;
-		
-		
+				
 		String clientId = "3cK614fe8K1RHXa2Hp4K";
         String clientSecret = "mk74hJSiu_";
         try {
@@ -181,7 +163,7 @@ public class HomeController {
                 response.append(inputLine);
             }
             br.close();
-                        
+                       
                         
                    System.out.println(response.toString());
             
@@ -191,14 +173,9 @@ public class HomeController {
             JsonArray dataArray = (JsonArray) jsonObject.get("items");
             System.out.println(dataArray.get(0));
             System.out.println(((JsonObject) dataArray.get(0)).get("title").toString());
-            
-            
+                        
            list = new ArrayList<Search>();
            
-           
-
-            	
-            	
             	for(int i=0; i<dataArray.size(); i++) {
             		
             		Search search = new Search();
@@ -213,80 +190,31 @@ public class HomeController {
             	list.add(search);
             	}
             	
-            
-            
             model.addAttribute("list", list);
-            
-            
+                        
         return "list";    
-        
-            
+                    
         } catch (Exception e) {
             System.out.println(e);
             return "index";
         }
-		
-		
-		
-		
-		
-		
-		
-		
-				
+			
 	}
 	
 	@RequestMapping("board")
 	public String board(Model model) {
-		
-		
-		
-		
-		
-		
-		
+				
 		model.addAttribute("list", boardDao.getList());
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+				
 		return "board";
-		
-		
+				
 	} 
 	
 	@RequestMapping("map")
 	public String map(Model model) {
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		return "map";
-		
-		
+				
 	} 
 
 }
